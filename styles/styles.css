@@ -1,0 +1,90 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+
+html {
+    padding: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+.nav {
+    width: 20em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.nav header {
+    font-size: 2.5em;
+}
+
+.nav nav {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav nav button {
+    width: 90%;
+    margin-bottom: 1em;
+    padding: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2em;
+}
+
+.content-wrapper .note-wrapper {
+    width: 40%; /* Set the width to 40% of its parent */
+}
+
+.content-wrapper .note-wrapper header {
+    margin-bottom: 0.5em; /* Space below the header */
+    padding: 0 0 1em 0; /* Add padding */
+}
+
+.note-wrapper header input {
+    width: 100%; /* Full width of the header */
+    padding: 0.5em; /* Padding for the input */
+    font-size: 1.2em; /* Larger font size for the title */
+}
+
+.content-wrapper .text-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 3em;
+    width: 100%;
+}
+
+.content-wrapper .text-bar input {
+    width: 90%;
+    height: 100%;
+    padding: 1em;
+    flex-grow: 1;
+    margin-right: 0.5em;
+}
+
+.content-wrapper .text-bar button {
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 4%;
+}
