@@ -1,0 +1,24 @@
+# Composer dependencies
+/vendor/
+
+# Environment files
+/.env
+
+# PHP server-specific files
+/php_error.log
+/php.ini
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# User-specific files
+/.idea/  # For JetBrains PhpStorm
+/.vscode/ # For Visual Studio Code
+
+# Other common files to ignore
+/node_modules/
+/temp/
+/cache/
+/log/
+/logs/
