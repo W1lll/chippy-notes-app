@@ -15,34 +15,6 @@ body {
     margin: 0;
 }
 
-.nav {
-    width: 20em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1em;
-}
-
-.nav header {
-    font-size: 2.5em;
-}
-
-.nav nav {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.nav nav button {
-    width: 90%;
-    margin-bottom: 1em;
-    padding: 1em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .content-wrapper {
     flex-grow: 1;
     display: flex;
@@ -87,4 +59,16 @@ body {
     cursor: pointer;
     flex-shrink: 0;
     width: 4%;
+}
+
+.main-content {
+    max-width: 800px; /* Set your desired maximum width */
+    margin: 0 auto;   /* Center the content */
+    width: 100%;      /* Make it fill the page */
+}
+
+#note-window {
+    width: 50vh; /* Set your desired width */
+    height: 70vh;
+    overflow-y: auto; /* Add a scrollbar if needed */
 }
