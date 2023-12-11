@@ -59,10 +59,10 @@ class Database {
      */
     public static function getInstance() {
         if (self::$_instance === null) {
-            $username = getenv('DB_USER');
-            $password = getenv('DB_PASS');
-            $host = getenv('DB_HOST');
-            $dbName = getenv('DB_NAME');
+            $username = $_ENV['DB_USER'];
+            $password = $_ENV['DB_PASS'];
+            $host = $_ENV['DB_HOST'];
+            $dbName = $_ENV['DB_NAME'];
 
             self::$_instance = new self($username, $password, $host, $dbName);
         }
