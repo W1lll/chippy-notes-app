@@ -1,17 +1,11 @@
 <!-- partials/sideBar.php -->
 <div class="nav">
-    <header>
-        Notes
-    </header>
+    <header>Notes</header>
     <nav>
-        <button>
-            Note A
-        </button>
-        <button>
-            Note B
-        </button>
-        <button>
-            Super long note title to check text wrapping.
-        </button>
+        <?php foreach ($notes as $note): ?>
+            <button class="note-link" data-note-id="<?php echo htmlspecialchars($note['NoteID']); ?>">
+                <?php echo htmlspecialchars($note['Title']); ?>
+            </button>
+        <?php endforeach; ?>
     </nav>
 </div>
