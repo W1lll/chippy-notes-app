@@ -9,9 +9,14 @@ require_once 'models/Database.php';
 require_once 'models/Note.php';
 require_once 'controllers/NoteController.php';
 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+}
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-session_start();
 
 $dbInstance = Database::getInstance();
 $dbConnection = $dbInstance->getDbConnection();

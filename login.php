@@ -4,9 +4,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 require_once 'vendor/autoload.php';
 require_once 'models/Database.php';
 require_once 'models/User.php';
+
+session_start();
+
+var_dump($_SESSION);
+if (isset($_SESSION['user_id'])) {
+    header('Location: index.php');
+}
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -26,8 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $userModel->getUserByUsername($username);
         if ($user && password_verify($password, $user['Password'])) {
             // User authenticated successfully
-            // Start session and set session variables
-            session_start();
             $_SESSION['user_id'] = $user['UserID'];
             $_SESSION['username'] = $user['Username'];
             // Redirect to a logged-in page
@@ -48,7 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Create new user
             $userModel->createUser($newUsername, $newPassword);
             // Redirect to login page or directly log the user in
-            header('Location: login.php?success=registration_complete');
+            $_SESSION['user_id'] = $user['UserID'];
+            $_SESSION['username'] = $user['Username'];
+            // Redirect to a logged-in page
+            header('Location: index.php');
         }
     } else {
         // Invalid action
