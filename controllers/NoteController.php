@@ -1,20 +1,32 @@
 <?php
 
-// Controllers/NoteController.php
 class NoteController {
-    private $model;
+    private $noteModel;
 
-    public function __construct($noteModel) {
-        $this->model = $noteModel;
+    public function __construct(NoteModel $noteModel) {
+        $this->noteModel = $noteModel;
     }
 
-    public function displayText() {
-        $displayText = null;
+    public function getAllNotes() {
+        return $this->noteModel->getAllNotes();
+    }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inputText'])) {
-            $displayText = $this->model->getText($_POST['inputText']);
-        }
+    public function getNoteById($noteId) {
+        return $this->noteModel->getNoteById($noteId);
+    }
 
-        require_once 'Views/noteView.php';
+    public function createNote($userId, $content, $groupId, $category, $tags, $title) {
+        $this->noteModel->createNote($userId, $content, $groupId, $category, $tags, $title);
+        // Additional code like returning a success response or redirecting the user
+    }
+
+    public function updateNote($noteId, $updatedValues) {
+        $this->noteModel->updateNote($noteId, $updatedValues);
+        // Handle post-update logic
+    }
+
+    public function deleteNote($noteId) {
+        $this->noteModel->deleteNote($noteId);
+        // Handle post-delete logic
     }
 }

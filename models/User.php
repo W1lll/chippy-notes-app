@@ -76,4 +76,19 @@ class UserModel {
         $stmt = $this->pdo->prepare("DELETE FROM Users WHERE UserID = ?");
         $stmt->execute([$userId]);
     }
+
+    /**
+     * Retrieves a user by their username.
+     *
+     * @param string $username The username of the user to retrieve.
+     * @return array|null The user's data as an associative array, or null if not found.
+     */
+    public function getUserByUsername($username) {
+        // Prepare a SELECT statement to fetch the user by username
+        $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE Username = ?");
+        $stmt->execute([$username]);
+
+        // Fetch and return the user data
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

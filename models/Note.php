@@ -151,4 +151,13 @@ class NoteModel {
         $stmt = $this->pdo->prepare("DELETE FROM Notes WHERE NoteID = ?");
         $stmt->execute([$noteId]);
     }
+
+    public function getNotesByUserID($userId) {
+        // Prepare a SELECT statement to fetch notes by user ID
+        $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE UserID = ?");
+        $stmt->execute([$userId]);
+
+        // Fetch and return the notes
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
