@@ -1,6 +1,7 @@
 <!-- Views/noteView.php -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Note Display</title>
     <meta charset="UTF-8">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="styles/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
+
 <body>
     <div class="content-wrapper">
 
@@ -29,7 +31,7 @@
         </form>
 
         <script>
-            document.getElementById("noteInputText").addEventListener("keypress", function (e) {
+            document.getElementById("noteInputText").addEventListener("keypress", function(e) {
                 if (e.key === "Enter") {
                     this.form.submit();
                 }
@@ -51,9 +53,9 @@
                 }
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.note-link').forEach(item => {
-                    item.addEventListener('click', function (e) {
+                    item.addEventListener('click', function(e) {
                         e.preventDefault();
                         var noteId = parseInt(this.getAttribute('data-note-id'));
 
@@ -75,9 +77,79 @@
                 });
             });
 
-
             document.addEventListener("keypress", handleKeyPress);
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Toggle dropdown
+                document.querySelectorAll('.options-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Find the closest note-item parent
+                        var noteItem = this.closest('.note-item');
+                        // Find the dropdown-content within this note-item
+                        var dropdown = noteItem.querySelector('.dropdown-content');
+                        dropdown.classList.toggle('show');
+                    });
+                });
+
+
+                // Rename note
+                document.querySelectorAll('.rename-note').forEach(button => {
+                    button.addEventListener('click', function() {
+                        var noteItem = this.closest('.note-item');
+                        var noteInput = noteItem.querySelector('.note-title');
+                        noteInput.removeAttribute('readonly');
+                        noteInput.classList.toggle('editable');
+                        noteInput.focus();
+
+                        // Save on Enter key press
+                        noteInput.addEventListener('keypress', function(e) {
+                            if (e.key === "Enter") {
+                                noteInput.setAttribute('readonly', true);
+                                var noteItem = this.closest('.note-item');
+                                var dropdown = noteItem.querySelector('.dropdown-content');
+                                dropdown.classList.toggle('show');
+                                var noteId = noteInput.getAttribute('data-note-id');
+                                var newTitle = noteInput.value;
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'updateNote.php', true);
+                                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                                xhr.onload = function() {
+                                    // Reload the page after getting response from the server
+                                    if (xhr.status === 200) {
+                                        window.location.reload();
+                                    } else {
+                                        console.error("Error updating note. Server responded with status:", xhr.status);
+                                    }
+                                };
+                                xhr.send('noteId=' + noteId + '&title=' + encodeURIComponent(newTitle));
+                            }
+                        });
+
+                    });
+                });
+
+                // Delete note
+                document.querySelectorAll('.delete-note').forEach(button => {
+                    button.addEventListener('click', function() {
+                        var noteId = this.closest('.note-item').querySelector('.note-title').getAttribute('data-note-id');
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'deleteNote.php', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xhr.onload = function() {
+                            // Reload the page after getting response from the server
+                            if (xhr.status === 200) {
+                                window.location.reload();
+                            } else {
+                                console.error("Error deleting note. Server responded with status:", xhr.status);
+                            }
+                        };
+                        xhr.send('noteId=' + noteId);
+                        setTimeout(function () {window.location.reload()}, 500);
+                    });
+                });
+            });
         </script>
     </div>
 </body>
+
 </html>

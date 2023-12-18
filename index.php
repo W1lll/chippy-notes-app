@@ -35,14 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $noteController->updateNote($noteId, [
             'Content' => $noteContent,
             'Title' => $noteTitle,
-            // Add other fields as needed
         ]);
     } else {
         // Create new note
-        $userId = $_SESSION['user_id']; // Example user ID
+        $userId = $_SESSION['user_id'];
         $noteController->createNote($userId, $noteContent, null, null, null, $noteTitle);
     }
-    
+
     // Redirect to avoid form resubmission
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;

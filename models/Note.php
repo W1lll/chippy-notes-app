@@ -5,7 +5,8 @@
  * 
  * Manages the Note.
  */
-class NoteModel {
+class NoteModel
+{
     /**
      * The PDO instance for database connection.
      *
@@ -18,7 +19,8 @@ class NoteModel {
      *
      * @param PDO $pdo A PDO instance for database operations.
      */
-    public function __construct($pdo) {
+    public function __construct($pdo)
+    {
         $this->pdo = $pdo;
     }
 
@@ -27,7 +29,8 @@ class NoteModel {
      *
      * @return array An array of all notes.
      */
-    public function getAllNotes() {
+    public function getAllNotes()
+    {
         $stmt = $this->pdo->query("SELECT * FROM Notes ORDER BY LastModified DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -38,7 +41,8 @@ class NoteModel {
      * @param int $noteId The ID of the note.
      * @return array|null The note data or null if not found.
      */
-    public function getNoteById($noteId) {
+    public function getNoteById($noteId)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE NoteID = ?");
         $stmt->execute([$noteId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,7 +54,8 @@ class NoteModel {
      * @param string $title The title of the notes.
      * @return array An array of notes that match the title.
      */
-    public function getNoteByTitle($title) {
+    public function getNoteByTitle($title)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE Title = ?");
         $stmt->execute([$title]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +66,8 @@ class NoteModel {
      *
      * @return array An array of collaborative notes.
      */
-    public function getCollaborativeNotes() {
+    public function getCollaborativeNotes()
+    {
         $stmt = $this->pdo->query("SELECT * FROM Notes WHERE IsCollaborative = 1");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -71,7 +77,8 @@ class NoteModel {
      *
      * @return array An array of notes sorted by upvotes.
      */
-    public function getNotesSortedByUpvotes() {
+    public function getNotesSortedByUpvotes()
+    {
         $stmt = $this->pdo->query("SELECT * FROM Notes ORDER BY Upvotes DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -82,7 +89,8 @@ class NoteModel {
      * @param string $category The category to filter notes by.
      * @return array An array of notes that belong to the specified category.
      */
-    public function getNotesByCategory($category) {
+    public function getNotesByCategory($category)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE Category = ?");
         $stmt->execute([$category]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -94,7 +102,8 @@ class NoteModel {
      * @param string $tag The tag to filter notes by.
      * @return array An array of notes that contain the specified tag.
      */
-    public function getNotesByTag($tag) {
+    public function getNotesByTag($tag)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE Tags LIKE ?");
         $stmt->execute(["%$tag%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -110,7 +119,8 @@ class NoteModel {
      * @param string $tags            The tags associated with the note.
      * @param string $title           The title of the note.
      */
-    public function createNote($userId, $content, $groupId, $category, $tags, $title) {
+    public function createNote($userId, $content, $groupId, $category, $tags, $title)
+    {
         $stmt = $this->pdo->prepare("INSERT INTO Notes (UserID, Content, GroupID, Category, Tags, Title) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$userId, $content, $groupId, $category, $tags, $title]);
     }
@@ -121,7 +131,8 @@ class NoteModel {
      * @param int         $noteId          The ID of the note to update.
      * @param array       $updatedValues   An associative array of column names and their new values.
      */
-    public function updateNote($noteId, $updatedValues) {
+    public function updateNote($noteId, $updatedValues)
+    {
         $query = "UPDATE Notes SET ";
         $fieldsToUpdate = [];
         foreach ($updatedValues as $column => $value) {
@@ -147,12 +158,14 @@ class NoteModel {
      *
      * @param int $noteId The ID of the note to delete.
      */
-    public function deleteNote($noteId) {
+    public function deleteNote($noteId)
+    {
         $stmt = $this->pdo->prepare("DELETE FROM Notes WHERE NoteID = ?");
         $stmt->execute([$noteId]);
     }
 
-    public function getNotesByUserID($userId) {
+    public function getNotesByUserID($userId)
+    {
         // Prepare a SELECT statement to fetch notes by user ID
         $stmt = $this->pdo->prepare("SELECT * FROM Notes WHERE UserID = ?");
         $stmt->execute([$userId]);
