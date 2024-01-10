@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 // Redirect if Not Logged In
@@ -12,6 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 require_once 'vendor/autoload.php';
 require_once 'models/Database.php';
 require_once 'models/Note.php';
+require_once 'models/NLP.php';
 require_once 'controllers/NoteController.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -23,10 +28,11 @@ $dbConnection = $dbInstance->getDbConnection();
 // Controllers
 $noteModel = new NoteModel($dbConnection);
 $noteController = new NoteController($noteModel);
+$titleGenerator = new NLP();
 
 // POST Request Handling
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    handlePostRequest($noteController);
+    handlePostRequest($noteController, $titleGenerator);
     exit; // Stop script execution after handling POST request
 }
 
@@ -42,8 +48,9 @@ include 'views/noteView.php';
  * Handles the POST request.
  *
  * @param NoteController $noteController The note controller.
+ * @param titleGenerator $noteController The NLP system.
  */
-function handlePostRequest($noteController) {
+function handlePostRequest($noteController, $titleGenerator) {
     $noteContent = $_POST['noteInputText'] ?? '';
     $noteTitle = $_POST['noteTitle'] ?? '';
     $noteId = $_POST['noteId'] ?? null;
@@ -64,6 +71,7 @@ function handlePostRequest($noteController) {
     } else {
         // Create new note
         $userId = $_SESSION['user_id'];
+        $noteTitle = $titleGenerator->categoriseNoteWithChatGPT($noteContent);
         $newNote = $noteController->createNote($userId, $noteContent, null, null, null, $noteTitle);
         echo $newNote
             ? json_encode(['success' => true, 'note' => $newNote])
