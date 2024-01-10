@@ -1,7 +1,12 @@
 <!-- partials/sideBar.php -->
 <div class="nav">
     <header>Notes</header>
-    <nav>
+    <nav id="navigation-panel" data-test-id="note-list">
+        <div class="note-item">
+            <div class="note-visible-wrapper">
+                <button class="note-title new-note" onclick="window.location.reload()">New Note</button>
+            </div>
+        </div>
         <?php foreach ($notes as $note) : ?>
             <div class="note-item">
                 <div class="note-visible-wrapper">

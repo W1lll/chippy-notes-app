@@ -16,17 +16,14 @@ class NoteController {
     }
 
     public function createNote($userId, $content, $groupId, $category, $tags, $title) {
-        $this->noteModel->createNote($userId, $content, $groupId, $category, $tags, $title);
-        // Additional code like returning a success response or redirecting the user
+        return $this->noteModel->createNote($userId, $content, $groupId, $category, $tags, $title);
     }
 
     public function updateNote($noteId, $updatedValues) {
-        $this->noteModel->updateNote($noteId, $updatedValues);
-        // Handle post-update logic
+        return $this->noteModel->updateNote($noteId, $updatedValues);
     }
 
     public function deleteNote($noteId) {
-        $this->noteModel->deleteNote($noteId);
-        // Handle post-delete logic
+        return $this->noteModel->deleteNote($noteId);
     }
 }

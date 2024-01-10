@@ -122,7 +122,12 @@ class NoteModel
     public function createNote($userId, $content, $groupId, $category, $tags, $title)
     {
         $stmt = $this->pdo->prepare("INSERT INTO Notes (UserID, Content, GroupID, Category, Tags, Title) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$userId, $content, $groupId, $category, $tags, $title]);
+        $success = $stmt->execute([$userId, $content, $groupId, $category, $tags, $title]);
+    
+        if ($success) {
+            $noteId = $this->pdo->lastInsertId();
+            return $this->getNoteById($noteId);
+        }
     }
 
     /**
@@ -150,7 +155,7 @@ class NoteModel
         }
 
         $stmt->bindParam(':noteId', $noteId);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
     /**
@@ -161,7 +166,7 @@ class NoteModel
     public function deleteNote($noteId)
     {
         $stmt = $this->pdo->prepare("DELETE FROM Notes WHERE NoteID = ?");
-        $stmt->execute([$noteId]);
+        return $stmt->execute([$noteId]);
     }
 
     public function getNotesByUserID($userId)

@@ -1,0 +1,26 @@
+{
+	"name": "hackcamp",
+	"version": "0.0.3",
+	"license": "MIT",
+	"description": "Notes app for hackcamp.",
+	"keywords": [
+		"notes",
+		"notation",
+		"chat-gpt"
+	],
+	"author": "Will Foster",
+	"main": "index.php",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/W1lll/chippy-notes-app.git"
+	},
+	"scripts": {
+		"test": "cypress open"
+	},
+	"devDependencies": {
+		"cypress": "^13.6.2"
+	},
+	"dependencies": {
+		"axios": "^1.6.5"
+	}
+}

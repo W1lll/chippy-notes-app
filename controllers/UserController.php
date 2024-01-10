@@ -13,21 +13,17 @@ class UserController {
 
     public function createUser($username, $password) {
         $this->userModel->createUser($username, $password);
-        // Additional code like returning a success response or redirecting the user
     }
 
     public function updateUserPassword($userId, $newPassword) {
         $this->userModel->updateUserPassword($userId, $newPassword);
-        // Handle post-update logic
     }
 
     public function updateUsername($userId, $newUsername) {
         $this->userModel->updateUsername($userId, $newUsername);
-        // Handle post-update logic
     }
 
     public function deleteUser($userId) {
         $this->userModel->deleteUser($userId);
-        // Handle post-delete logic
     }
 }

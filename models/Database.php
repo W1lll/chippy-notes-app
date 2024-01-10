@@ -35,7 +35,6 @@ class Database {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
         } catch (PDOException $e) {
-            // Handle the exception here
             // Consider logging this error instead of just displaying it
             error_log($e->getMessage());
             exit('Database connection error.');

@@ -21,19 +21,41 @@
         </div>
 
         <!-- Form to add/update a note -->
-        <form action="index.php" method="POST" class="text-bar">
-            <input type="text" name="noteInputText" id="noteInputText" placeholder="Enter note content">
+        <form class="text-bar" id="create-update-note">
+            <input type="text" name="noteInputText" id="noteInputText" placeholder="Enter note content" data-test-id="new-note-input">
             <input type="hidden" name="noteId" id="noteId"> <!-- Hidden input for note ID if updating -->
             <input type="hidden" name="noteTitle" id="noteTitle"> <!-- Hidden input for note ID if updating -->
-            <button type="submit">
+            <button type="submit" data-test-id="submit-note">
                 <span class="material-symbols-outlined">arrow_upward_alt</span>
             </button>
         </form>
 
         <script>
+            document.getElementById('create-update-note').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                fetch('index.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('noteInputText').value = '';
+                        document.getElementById('note-message').innerHTML = data.content.Content;
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
             document.getElementById("noteInputText").addEventListener("keypress", function(e) {
                 if (e.key === "Enter") {
-                    this.form.submit();
+                    e.preventDefault(); // Prevent default form submission on Enter key
+                    this.form.dispatchEvent(new Event('submit')); // Manually trigger form submit
                 }
             });
 
