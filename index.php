@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 
 // Redirect if Not Logged In
@@ -67,7 +63,7 @@ function handlePostRequest($noteController, $titleGenerator) {
         ]);
 
         $newNote = $noteController->getNoteById($noteId);
-        echo json_encode(['success' => true, 'content' => $newNote]);
+        echo json_encode(['success' => true, 'note' => $newNote]);
     } else {
         // Create new note
         $userId = $_SESSION['user_id'];

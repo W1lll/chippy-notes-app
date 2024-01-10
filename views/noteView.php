@@ -45,6 +45,8 @@
                     if (data.success) {
                         document.getElementById('noteInputText').value = '';
                         document.getElementById('note-message').innerHTML = data.note.Content;
+                        document.getElementById('noteTitleHeading').innerHTML = data.note.Title;
+                        document.getElementById('noteId').value = data.note.NoteID;
                     } else {
                         console.error('Error:', data.message);
                     }
